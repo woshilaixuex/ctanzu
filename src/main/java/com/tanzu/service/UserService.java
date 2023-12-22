@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
-//@Service
+@Service
 public class UserService implements UserServiceImpl {
     @Autowired
     RoleUserMapper roleUserMapper;
