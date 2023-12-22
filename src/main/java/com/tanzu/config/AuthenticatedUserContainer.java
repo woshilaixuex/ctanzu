@@ -7,10 +7,11 @@ import java.util.Map;
 @Component
 public class AuthenticatedUserContainer {
     private static final MapThreadLocal<String> authenticatedUser = new MapThreadLocal<>();
+    private static String username;
 
-    public static void setAuthenticatedUser(String token, String num) {
+    public static void setAuthenticatedUser(String token, String username) {
         Map<String, String> map = authenticatedUser.get();
-        map.put(token, num);
+        map.put(token, username);
         authenticatedUser.set(map);
     }
 

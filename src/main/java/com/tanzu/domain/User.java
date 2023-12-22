@@ -1,6 +1,8 @@
 package com.tanzu.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @TableName(value = "users")
 public class User{
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
     @NotNull(message = "USERNAME_CANNOT_BE_EMPTY")
     @NotBlank(message = "USERNAME_CANNOT_BE_EMPTY")

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,7 +21,13 @@ import java.util.UUID;
 public class JWT {
     private String signature = "admin";
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private  StringRedisTemplate stringRedisTemplate;
+    public static StringRedisTemplate stringRedisTemplateStatic;
+
+    @PostConstruct
+    private void initStringRedisTemplate(){
+        stringRedisTemplateStatic = this.stringRedisTemplate;
+    }
     public String makeToken(User user, long time){
         JwtBuilder jwtBuilder = Jwts.builder();
         String jwtToken = jwtBuilder
@@ -32,23 +39,30 @@ public class JWT {
                 .setId(UUID.randomUUID().toString())
                 .signWith(SignatureAlgorithm.HS256, signature)
                 .compact();
+        stringRedisTemplateStatic.opsForValue().set("token",jwtToken);
         return jwtToken;
     }
     public String parseToken(String NewToken){
+        String token = NewToken;
         JwtParser jwtParser = Jwts.parser();
-        Jws<Claims> claimsJws = jwtParser.setSigningKey(signature).parseClaimsJws(NewToken);
+        Jws<Claims> claimsJws = jwtParser.setSigningKey(signature).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         String username = claims.get("username",String.class);
-        String storedToken = stringRedisTemplate.opsForValue().get(username);
-        if(storedToken != null) {
-            if (storedToken.equals(NewToken)) {
-                return username;
+        if(username.isEmpty()){
+            System.out.println("不存在");
+            return null;
+        }else {
+            String storedToken = stringRedisTemplateStatic.opsForValue().get("token");
+            if (storedToken != null) {
+                if (storedToken.equals(token)) {
+                    return username;
+                } else {
+                    return null;
+                }
             } else {
+                log.info("未在redis中找到Token");
                 return null;
             }
-        }else{
-            log.info("未在redis中找到Token");
-            return null;
         }
     }
 }

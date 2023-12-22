@@ -41,12 +41,12 @@ public class UserController {
         VerifyCode.output(image, resp.getOutputStream());
     }
     @PostMapping("/tanzu/user/register")
-    public ResponseEntity<ResResult> register(@RequestBody @Validated User user)
-            throws TimeoutException {
+    public ResponseEntity<ResResult> register(@RequestBody @Validated User user){
         User logeuser = userService.loadUserByUsername(user.getUsername());
         if(logeuser != null) return ResponseEntity.status(RespCode.USER_ALREADY_EXISTS)
                 .body(new ResResult(RespCode.USER_ALREADY_EXISTS,"已存在该用户",null));
-        return ResponseEntity.ok(new ResResult(200,"通过",null));
+        String token = jWt.makeToken(user, 60 * 60 * 12*1000);
+        return ResponseEntity.ok(new ResResult(200, "通过", token));
     }
     @PostMapping("/tanzu/user/login")
     public ResponseEntity<ResResult> login(HttpServletRequest req, HttpServletResponse resp,@RequestBody User user)
@@ -58,7 +58,7 @@ public class UserController {
             User logeuser = userService.loadUserByUsername(user.getUsername());
             if (logeuser == null) return ResponseEntity.status(RespCode.USER_NOT_FOUND)
                     .body(new ResResult(RespCode.USER_NOT_FOUND, "不存在该用户", null));
-            String token = jWt.makeToken(user, 60 * 60 * 12);
+            String token = jWt.makeToken(user, 60 * 60 * 12*1000);
             return ResponseEntity.ok(new ResResult(200, "通过", token));
         }
     }

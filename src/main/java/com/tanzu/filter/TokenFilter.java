@@ -36,7 +36,7 @@ public class TokenFilter implements Filter{
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI();
-        if(!path.startsWith("/tanzu/user")){
+        if(path.startsWith("/tanzu/user")){
             filterChain.doFilter(request, servletResponse);
             return;
         }

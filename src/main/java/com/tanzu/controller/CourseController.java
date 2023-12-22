@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CourseController {
     @GetMapping()
     public void getAllCourse(HttpServletRequest request){
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Token");
         String username = AuthenticatedUserContainer.getAuthenticatedUser(token);
     }
 }

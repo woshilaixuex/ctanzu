@@ -21,7 +21,7 @@ public class TokenProxy {
     @Before("tokenVerification()")
     public void beforeAdvice(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Token");
         String username = AuthenticatedUserContainer.getAuthenticatedUser(token);
     }
 }
