@@ -7,13 +7,9 @@ import com.tanzu.service.UserService;
 import com.tanzu.util.JWT;
 import com.tanzu.util.VerifyCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,12 +22,13 @@ import java.util.concurrent.TimeoutException;
  * 登录注册
  */
 @RestController
+@RequestMapping("/tanzu/user")
 public class UserController {
     @Autowired
     UserService userService;
     @Autowired
     JWT jWt;
-    @GetMapping("/tanzu/user/vercode")
+    @GetMapping("vercode")
     public void code(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         VerifyCode vc = new VerifyCode();
         BufferedImage image = vc.getImage();
@@ -40,15 +37,16 @@ public class UserController {
         session.setAttribute("vercode", text);
         VerifyCode.output(image, resp.getOutputStream());
     }
-    @PostMapping("/tanzu/user/register")
+    @PostMapping("register")
     public ResponseEntity<ResResult> register(@RequestBody @Validated User user){
         User logeuser = userService.loadUserByUsername(user.getUsername());
         if(logeuser != null) return ResponseEntity.status(RespCode.USER_ALREADY_EXISTS)
                 .body(new ResResult(RespCode.USER_ALREADY_EXISTS,"已存在该用户",null));
-        String token = jWt.makeToken(user, 60 * 60 * 12*1000);
+        User newUser = userService.saveNewUser(user);
+        String token = jWt.makeToken(newUser, 60 * 60 * 12*1000);
         return ResponseEntity.ok(new ResResult(200, "通过", token));
     }
-    @PostMapping("/tanzu/user/login")
+    @PostMapping("login")
     public ResponseEntity<ResResult> login(HttpServletRequest req, HttpServletResponse resp,@RequestBody User user)
             throws TimeoutException {
         String code =  (String) req.getSession().getAttribute("vercode");

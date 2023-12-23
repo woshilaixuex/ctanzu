@@ -11,8 +11,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class TokenProxy {
     @Pointcut("execution (* com.tanzu.controller.CourseController.*(..))")
     public void tokenVerification() {

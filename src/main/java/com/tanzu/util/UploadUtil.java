@@ -52,7 +52,7 @@ public class UploadUtil {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key,Localfile);
         PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
         cosClient.shutdown();
-        return TENGXUN_url + key;
+        return key;
     }
     public static String uploadImageBack(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
@@ -63,14 +63,12 @@ public class UploadUtil {
         File Localfile = File.createTempFile("temp", null);
         try (InputStream inputStream = file.getInputStream()) {
             Files.copy(inputStream, Localfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }catch (Exception e){
-            throw e;
         }
         System.out.println(filename);
         String key = "back_imge/" + filename;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key,Localfile);
         PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
         cosClient.shutdown();
-        return TENGXUN_url + key;
+        return key;
     }
 }

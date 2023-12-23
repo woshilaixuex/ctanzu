@@ -7,17 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "user_informs")
-public class UserInform {
-    @TableId(type = IdType.ASSIGN_UUID)
-    private String id;
-    private String name;
-    private String massage;
-    @Email
-    private String email;
+@TableName("messages")
+public class Message {
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    private String content;
+    @TableId(type = IdType.AUTO)
+    private Long  courseId;
+    private LocalDateTime time;
 }
