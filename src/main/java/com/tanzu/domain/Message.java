@@ -1,6 +1,7 @@
 package com.tanzu.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,9 @@ import java.time.LocalDateTime;
 @TableName("messages")
 public class Message {
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     private String content;
-    @TableId(type = IdType.AUTO)
+    @TableField
     private Long  courseId;
     private LocalDateTime time;
 }

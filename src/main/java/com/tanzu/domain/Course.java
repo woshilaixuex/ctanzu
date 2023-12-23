@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,8 +17,13 @@ import lombok.NoArgsConstructor;
 public class Course {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String url;
+    @TableField("video_url")
+    private String videoUrl;
+    @TableField("image_url")
+    private String imageUrl;
     private String origin;
     @TableField("sub_name")
     private String subName;
+    @TableField(exist = false)
+    private List<Message> messages;
 }

@@ -10,10 +10,9 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface MessageMapper{
+public interface MessageMapper extends BaseMapper<Message>{
     @Select("SELECT * FROM comments")
     List<Message> selectAllMessage();
-
     /**
      * 新增一条留言信息
      * @param message
@@ -26,8 +25,8 @@ public interface MessageMapper{
     @Select("SELECT content FROM table WHERE id = #{id}")
     List<String> selectById(Integer id);
 
-    @Select("SELECT content FROM table WHERE courseId = #{courseId}")
-    List<String> selectByCourseId(Integer courseId);
+    @Select("SELECT * FROM table WHERE courseId = #{courseId}")
+    List<Message> selectByCourseId(Long courseId);
 
     @Delete("DELETE FROM table WHERE id = #{id}")
     void deleteById(Integer id);

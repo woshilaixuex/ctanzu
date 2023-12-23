@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CourseService {
     List<Course> getAllCourse();
+    Course getCourseById(Long id);
 }

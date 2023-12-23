@@ -17,12 +17,15 @@ public class RespCode {
     // 密码不能为空
     public static final int PASSWORD_CANNOT_BE_EMPTY = USER_ERROR_START + 4;
     public static final Map<String, Integer> ERROR_CODE_MAP = new HashMap<>();
+    // 课程模块
+    public static final int COURSE_ERROR_START = 400;
 
     static {
-        ERROR_CODE_MAP.put("USER_NOT_FOUND", 4001);
-        ERROR_CODE_MAP.put("USER_ALREADY_EXISTS", 4002);
-        ERROR_CODE_MAP.put("USERNAME_CANNOT_BE_EMPTY", 4003);
-        ERROR_CODE_MAP.put("PASSWORD_CANNOT_BE_EMPTY", 4004);
+        ERROR_CODE_MAP.put("USER_NOT_FOUND", 401);
+        ERROR_CODE_MAP.put("USER_ALREADY_EXISTS", 402);
+        ERROR_CODE_MAP.put("USERNAME_CANNOT_BE_EMPTY", 403);
+        ERROR_CODE_MAP.put("PASSWORD_CANNOT_BE_EMPTY", 404);
 
+        ERROR_CODE_MAP.put("DEFAULT_ERROR_CODE",466);
     }
 }

@@ -41,14 +41,14 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<String> getByCourseId(Integer courseId) {
+    public List<Message> getByCourseId(Long courseId) {
         LambdaQueryWrapper<Message> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Message::getCourseId,courseId);
         if (wrapper == null) {
             // 异常处理
         }
-        List<String> stringList = messageMapper.selectByCourseId(courseId);
-        return stringList;
+        List<Message> messages = messageMapper.selectByCourseId(courseId);
+        return messages;
     }
 
     @Override

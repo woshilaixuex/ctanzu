@@ -28,7 +28,7 @@ public class UserController {
     UserService userService;
     @Autowired
     JWT jWt;
-    @GetMapping("vercode")
+    @GetMapping("/vercode")
     public void code(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         VerifyCode vc = new VerifyCode();
         BufferedImage image = vc.getImage();
@@ -37,7 +37,7 @@ public class UserController {
         session.setAttribute("vercode", text);
         VerifyCode.output(image, resp.getOutputStream());
     }
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<ResResult> register(@RequestBody @Validated User user){
         User logeuser = userService.loadUserByUsername(user.getUsername());
         if(logeuser != null) return ResponseEntity.status(RespCode.USER_ALREADY_EXISTS)
@@ -46,7 +46,7 @@ public class UserController {
         String token = jWt.makeToken(newUser, 60 * 60 * 12*1000);
         return ResponseEntity.ok(new ResResult(200, "通过", token));
     }
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<ResResult> login(HttpServletRequest req, HttpServletResponse resp,@RequestBody User user)
             throws TimeoutException {
         String code =  (String) req.getSession().getAttribute("vercode");
