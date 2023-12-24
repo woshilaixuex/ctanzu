@@ -15,9 +15,9 @@ import java.util.List;
 public class HistoryController {
     @Autowired
     HistoryServiceImpl historyService;
-    @GetMapping("/histories/{username}")
-    public ResponseEntity<ResResult> getAllHistories(@PathVariable String username){
-        List<History> histories = historyService.selectAllHistoriesById(username);
+    @GetMapping("/histories/{userId}")
+    public ResponseEntity<ResResult> getAllHistories(@PathVariable String userId){
+        List<History> histories = historyService.selectAllHistoriesById(userId);
         return  ResponseEntity.ok(new ResResult(200, "通过", histories));
     }
     @PostMapping("/history")

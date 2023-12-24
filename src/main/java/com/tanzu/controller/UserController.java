@@ -2,6 +2,7 @@ package com.tanzu.controller;
 
 import com.tanzu.common.ResResult;
 import com.tanzu.common.RespCode;
+import com.tanzu.domain.TokenInform;
 import com.tanzu.domain.User;
 import com.tanzu.service.UserService;
 import com.tanzu.util.JWT;
@@ -44,7 +45,8 @@ public class UserController {
                 .body(new ResResult(RespCode.USER_ALREADY_EXISTS,"已存在该用户",null));
         User newUser = userService.saveNewUser(user);
         String token = jWt.makeToken(newUser, 60 * 60 * 12*1000);
-        return ResponseEntity.ok(new ResResult(200, "通过", token));
+        TokenInform tokenInform = new TokenInform(user.getId(),token);
+        return ResponseEntity.ok(new ResResult(200, "通过", tokenInform));
     }
     @PostMapping("/login")
     public ResponseEntity<ResResult> login(HttpServletRequest req, HttpServletResponse resp,@RequestBody User user)
@@ -57,7 +59,8 @@ public class UserController {
             if (logeuser == null) return ResponseEntity.status(RespCode.USER_NOT_FOUND)
                     .body(new ResResult(RespCode.USER_NOT_FOUND, "不存在该用户", null));
             String token = jWt.makeToken(user, 60 * 60 * 12*1000);
-            return ResponseEntity.ok(new ResResult(200, "通过", token));
+            TokenInform tokenInform = new TokenInform(logeuser.getId(),token);
+            return ResponseEntity.ok(new ResResult(200, "通过", tokenInform));
         }
     }
 }

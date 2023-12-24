@@ -17,6 +17,8 @@ import java.util.List;
 public class Course {
     @TableId(type = IdType.AUTO)
     private Long id;
+    @TableField("course_name")
+    private String courseName;
     @TableField("video_url")
     private String videoUrl;
     @TableField("image_url")

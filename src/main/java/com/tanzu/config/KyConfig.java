@@ -13,12 +13,12 @@ public class KyConfig {
     public WebMvcConfigurer corsConfigurer(){
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry){
+            public void addCorsMappings(CorsRegistry registry) {
                 log.info("跨域配置");
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowCredentials(false)
-                        .allowedMethods("GET","POST","PUT","DELETE")
+                        .allowedOrigins("http://10.33.102.54")
+                        .allowCredentials(true)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }
         };

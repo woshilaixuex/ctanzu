@@ -28,6 +28,6 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseById(Long id) {
         Course course = courseMapper.selectById(id);
         course.setMessages(messageService.getByCourseId(id));
-        return null;
+        return course;
     }
 }

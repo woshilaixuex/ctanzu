@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 public class Message {
     @TableId(type = IdType.AUTO)
     private Integer id;
+    @TableField(exist = false)
+    private String userId;
+    @TableField(exist = false)
+    private String userName;
     private String content;
     @TableField
     private Long  courseId;

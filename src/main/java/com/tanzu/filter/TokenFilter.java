@@ -36,17 +36,23 @@ public class TokenFilter implements Filter{
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI();
-        if(path.startsWith("/tanzu/user")){
+        if(path.startsWith("/tanzu/user/")){
             filterChain.doFilter(request, servletResponse);
             return;
         }
-        String token = request.getHeader("Token");
-        if(token.isEmpty()){
+        try {
+            String token = request.getHeader("Token");
+            if(token.isEmpty()){
+                ResResult resResult = new ResResult(411, "Token is null ", null);
+                sendErrorResponse(response, resResult);
+                return;
+            }
+            filterChain.doFilter(request, servletResponse);
+        }catch (Exception e){
             ResResult resResult = new ResResult(411, "Token is null ", null);
             sendErrorResponse(response, resResult);
             return;
         }
-        filterChain.doFilter(request, servletResponse);
     }
 
     @Override

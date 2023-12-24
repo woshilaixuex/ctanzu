@@ -20,25 +20,19 @@ public class MessageController {
         List<Message> messages = messageService.findAllMessage();
         return ResponseEntity.ok().body(new ResResult(200,"通过",messages));
     }
-    @PostMapping("/add")
-    public ResponseEntity<ResResult> addMessage(@RequestBody Message message){
-        String newMessage = messageService.addMessage(message);
+    @PostMapping("/add/{courseId}")
+    public ResponseEntity<ResResult> addMessage(@RequestBody Message message,@PathVariable Long courseId){
+        System.out.println(message);
+        message.setCourseId(courseId);
+        Message newMessage = messageService.addMessage(message);
         return ResponseEntity.ok().body(new ResResult(200,"通过",newMessage));
     }
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<ResResult> getById(@PathVariable Integer id){
-        List<String> messages = messageService.getById(id);
+    @GetMapping("/{courseId}")
+    public ResponseEntity<ResResult> getByCourseId(@PathVariable Long courseId){
+        List<Message> messages = messageService.getByCourseId(courseId);
         return ResponseEntity.ok().body(new ResResult(200,"通过",messages));
     }
-    @GetMapping("/getByCourseId/{courseId}")
-    public ResponseEntity<ResResult> getByCourseId(@PathVariable Integer courseId){
-        List<String> messages = messageService.getByCourseId(courseId);
-        return ResponseEntity.ok().body(new ResResult(200,"通过",messages));
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResResult> deleteById(@PathVariable Integer id){
-        messageService.deleteById(id);
-        return ResponseEntity.ok().body(new ResResult(200,"通过","succed"));
-    }
+
+
 
 }
